@@ -31,7 +31,7 @@ describe('Acceptance: Pending Build', function() {
     andThen(() => {
       expect(currentPath()).to.equal('organization.project.builds.build.index');
     });
-    percySnapshot(this.test.fullTitle() + ' on the build page');
+    percySnapshot(this.test.fullTitle() + ' on the build page', {widths: [100, 550]});
 
     click('#BuildInfo');
 
