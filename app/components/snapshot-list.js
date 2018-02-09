@@ -15,7 +15,6 @@ export default Component.extend({
   selectedSnapshotIndex: -1,
   snapshotComponents: null,
   updateActiveSnapshotId: null,
-  updateSelectedWidth: null,
 
   sortedSnapshots: computed('snapshots.[]', 'buildContainerSelectedWidth', function() {
     let snapshots = this.get('snapshots');

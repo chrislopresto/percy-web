@@ -4,6 +4,12 @@ import Component from '@ember/component';
 
 export default Component.extend({
   classNames: ['SnapshotViewer mb-2'],
+  classNameBindings: [
+    'isFocus:SnapshotViewer--focus',
+    'isExpanded::SnapshotViewer--collapsed',
+    'isActionable:SnapshotViewer--actionable',
+  ],
+
   snapshot: null,
   buildContainerSelectedWidth: null,
   registerChild() {},
@@ -41,11 +47,6 @@ export default Component.extend({
     return comparison;
   }),
 
-  classNameBindings: [
-    'isFocus:SnapshotViewer--focus',
-    'isExpanded::SnapshotViewer--collapsed',
-    'isActionable:SnapshotViewer--actionable',
-  ],
   isDefaultExpanded: true,
   isFocus: false,
   isExpanded: computed('isDefaultExpanded', function() {

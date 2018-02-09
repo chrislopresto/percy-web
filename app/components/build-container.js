@@ -1,4 +1,4 @@
-import {max, oneWay, or} from '@ember/object/computed';
+import {or} from '@ember/object/computed';
 import Component from '@ember/component';
 import PollingMixin from 'percy-web/mixins/polling';
 
@@ -11,8 +11,7 @@ export default Component.extend(PollingMixin, {
     'classes',
     'isShowingModal:BuildContainer--snapshotModalOpen:BuildContainer--snapshotModalClosed',
   ],
-  maxWidth: max('build.comparisonWidths'),
-  buildContainerSelectedWidth: oneWay('maxWidth'),
+
   currentPosition: null,
 
   showComparisons: or('build.isPending', 'build.isProcessing', 'build.isFinished'),

@@ -15,12 +15,8 @@
     {{else}}
       {{snapshot-list
         snapshots=build.snapshots
-        buildContainerSelectedWidth=buildContainerSelectedWidth
-        buildWidths=build.comparisonWidths
         activeSnapshotId=activeSnapshotId
         updateActiveSnapshotId=(action "updateActiveSnapshotId")
-        selectedWidth=selectedWidth
-        snapshotWidthChangeTriggered=(action "snapshotWidthChangeTriggered")
         build=build
         showSnapshotFullModalTriggered=(action 'showSnapshotFullModalTriggered')
         isShowingModal=isShowingModal
