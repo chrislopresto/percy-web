@@ -4,62 +4,22 @@ import ArrayProxy from '@ember/array/proxy';
 import $ from 'jquery';
 import {computed} from '@ember/object';
 import Component from '@ember/component';
+import snapshotSort from 'percy-web/lib/snapshot-sort';
 
 export default Component.extend({
   classNames: ['SnapshotList'],
 
   activeSnapshotId: null,
   buildContainerSelectedWidth: null,
-  buildWidths: [],
   lastSnapshotIndex: null,
   selectedSnapshotIndex: -1,
   snapshotComponents: null,
   updateActiveSnapshotId: null,
 
   sortedSnapshots: computed('snapshots.[]', 'buildContainerSelectedWidth', function() {
-    let snapshots = this.get('snapshots');
-    let width = parseInt(this.get('buildContainerSelectedWidth'));
-
-    function comparisonAtCurrentWidth(snapshot) {
-      return snapshot.get('comparisons').findBy('width', width);
-    }
-
-    return snapshots.sort(function(a, b) {
-      // Prioritize snapshots with diffs at any widths over snapshots with no diffs at any widths
-      function maxDiffRatioAnyWidth(comparisons) {
-        let comparisonWidths = comparisons.mapBy('smartDiffRatio').filter(x => x);
-        return Math.max(0, ...comparisonWidths); // Provide minimum of one param to avoid -Infinity
-      }
-
-      let maxComparisonDiffA = maxDiffRatioAnyWidth(a.get('comparisons'));
-      let maxComparisonDiffB = maxDiffRatioAnyWidth(b.get('comparisons'));
-      if (maxComparisonDiffA > 0 && maxComparisonDiffB == 0) {
-        // First snapshot has diffs, second doesn't at any widths
-        return -1;
-      } else if (maxComparisonDiffA == 0 && maxComparisonDiffB > 0) {
-        // Second snapshot has diffs, first doesn't at any widths
-        return 1;
-      }
-
-      // Next prioritize snapshots with comparisons at the current width
-      let comparisonForA = comparisonAtCurrentWidth(a);
-      let comparisonForB = comparisonAtCurrentWidth(b);
-      if (comparisonForA && !comparisonForB) {
-        // First snapshot has a comparison at the current width.
-        return -1;
-      } else if (!comparisonForA && comparisonForB) {
-        // Second snapshot has a comparison at the current width.
-        return 1;
-      } else if (comparisonForA && comparisonForB) {
-        // Both snapshots have a comparison for the current width, sort by diff percentage.
-        return comparisonForB.get('smartDiffRatio') - comparisonForA.get('smartDiffRatio');
-      }
-
-      // Finally, sort by diff ratio across all widths.
-      // Sorts descending.
-      return maxComparisonDiffB + maxComparisonDiffA;
-    });
+    return snapshotSort(this.get('snapshots'));
   }),
+
   hideNoDiffs: computed('noDiffSnapshotsCount', function() {
     let noDiffsCount = this.get('noDiffSnapshotsCount');
     let activeSnapshotId = this.get('activeSnapshotId');
