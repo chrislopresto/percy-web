@@ -79,8 +79,8 @@
         </button>
       </div>
 
-      {{#if (is-admin)}}
-        <div class="btn-group">
+      {{#if (and (is-admin) isBuildFinished)}}
+        <div class="btn-group" data-test-snapshot-approval-button>
           {{snapshot-approval-button
             snapshot=snapshot
             createReview=createReview

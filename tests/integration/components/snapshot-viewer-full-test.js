@@ -184,7 +184,7 @@ describe('Integration: SnapshotViewerFull with per snapshot approval', function(
 
     const snapshots = makeList('snapshot', 5, 'withComparisons');
     snapshots[0].set('name', snapshotTitle);
-    const build = make('build');
+    const build = make('build', 'finished');
     build.set('snapshots', snapshots);
 
     closeSnapshotFullModalStub = sinon.stub();
@@ -224,6 +224,11 @@ describe('Integration: SnapshotViewerFull with per snapshot approval', function(
       expect(createReviewStub).to.have.been.calledWith('approve', this.get('build'), [
         this.get('build.snapshots.firstObject'),
       ]);
+    });
+
+    it('does not display when build is not finished', function() {
+      this.set('build.state', 'pending');
+      expect(SnapshotViewerPO.header.snapshotApprovalButton.isVisible).to.equal(false);
     });
   });
 });

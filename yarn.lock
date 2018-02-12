@@ -3247,15 +3247,14 @@ ember-cli-normalize-entity-name@^1.0.0:
   dependencies:
     silent-error "^1.0.0"
 
-ember-cli-page-object@^1.13.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/ember-cli-page-object/-/ember-cli-page-object-1.13.0.tgz#9ac9342d9f90a363c429fbb14f3ad5c0be11827a"
+ember-cli-page-object@^1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-page-object/-/ember-cli-page-object-1.14.0.tgz#fcf06b3b1ee6454196a29bc674abe8b65aa0adbd"
   dependencies:
     ceibo "~2.0.0"
     ember-cli-babel "^6.6.0"
     ember-cli-node-assets "^0.2.2"
     ember-native-dom-helpers "^0.5.3"
-    ember-test-helpers "^0.6.3"
     jquery "^3.2.1"
     rsvp "^4.7.0"
 
@@ -3301,9 +3300,9 @@ ember-cli-sri@^2.1.0:
   dependencies:
     broccoli-sri-hash "^2.1.0"
 
-ember-cli-string-helpers@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/ember-cli-string-helpers/-/ember-cli-string-helpers-1.6.0.tgz#dd38cdf3cddaaf8bb62f58d83fcc4e8d47a2e89d"
+ember-cli-string-helpers@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-string-helpers/-/ember-cli-string-helpers-1.7.0.tgz#805b86b0b523912029e7ebaba4b8254c7240b8b4"
   dependencies:
     broccoli-funnel "^1.0.1"
     ember-cli-babel "^6.6.0"

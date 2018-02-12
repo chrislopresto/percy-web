@@ -16,6 +16,7 @@ const SELECTORS = {
   DROPDOWN_TOGGLE: '[data-test-snapshot-header-dropdown-toggle]',
   DROPDOWN_PANE: '[data-test-snapshot-header-dropdown-pane]',
   DROPDOWN_TOGGLE_WIDTHS_OPTION: '[data-test-toggle-widths-option]',
+  APPROVAL_BUTTON_SCOPE: '[data-test-snapshot-approval-button]',
 };
 
 export const SnapshotViewerHeader = {
@@ -58,7 +59,15 @@ export const SnapshotViewerHeader = {
   isToggleWidthsOptionVisible: isVisible(SELECTORS.DROPDOWN_TOGGLE_WIDTHS_OPTION),
   clickToggleAllWidths: clickable(SELECTORS.DROPDOWN_TOGGLE_WIDTHS_OPTION),
 
-  snapshotApprovalButton: SnapshotApprovalButton,
+  // We are setting scope here because this component doesn't have a tag
+  // and therefore cannot set its own scope.
+  snapshotApprovalButton: Object.assign(
+    {
+      scope: SELECTORS.APPROVAL_BUTTON_SCOPE,
+    },
+    SnapshotApprovalButton,
+  ),
+
   clickApprove: alias('snapshotApprovalButton.clickButton'),
   isApproved: alias('snapshotApprovalButton.isApproved'),
   isUnapproved: alias('snapshotApprovalButton.isUnapproved'),

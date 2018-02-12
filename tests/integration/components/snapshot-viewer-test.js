@@ -254,7 +254,7 @@ describe('Integration: SnapshotViewer with per snapshot approval', function() {
     createReviewStub = sinon.stub().returns(resolve());
     snapshotTitle = 'Awesome snapshot title';
     const snapshot = make('snapshot', {name: snapshotTitle});
-    const build = make('build');
+    const build = make('build', 'finished');
     build.set('snapshots', [snapshot]);
     const stub = sinon.stub();
 
@@ -288,6 +288,11 @@ describe('Integration: SnapshotViewer with per snapshot approval', function() {
       expect(createReviewStub).to.have.been.calledWith('approve', this.get('build'), [
         this.get('build.snapshots.firstObject'),
       ]);
+    });
+
+    it('does not display when build is not finished', function() {
+      this.set('build.state', 'pending');
+      expect(SnapshotViewerPO.header.snapshotApprovalButton.isVisible).to.equal(false);
     });
   });
 });

@@ -89,11 +89,15 @@ export default Component.extend({
 
   cachedSnapshotOrder: service(),
   computedSnapshots: computed(
+    'build.isFinished',
     'hideNoDiffs',
     'snapshotsWithDiffs.@each.isApproved',
     'snapshotsWithoutDiffs.@each.isApproved',
     function() {
-      if (this.get('cachedSnapshotOrder').shouldUseCachedSnapshots()) {
+      if (
+        this.get('build.isFinished') &&
+        this.get('cachedSnapshotOrder').shouldUseCachedSnapshots()
+      ) {
         return this.get('cachedSnapshotOrder').getOrderedSnapshots();
       }
 
