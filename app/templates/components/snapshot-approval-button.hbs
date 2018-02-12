@@ -1,0 +1,11 @@
+{{#if snapshot.isApproved}}
+  <div class="status-pill is-approved" data-test-snapshot-approved-pill>
+    {{#if (eq snapshot.reviewStateReason 'no_diffs')}}
+      No Changes
+    {{else}}
+      Approved
+    {{/if}}
+  </div>
+{{else}}
+  <button type="button" class="btn btn-success {{if isLoading 'is-loading'}}" {{action "approveSnapshot" bubbles=false}} data-test-SnapshotViewerHeader-approve>Approve</button>
+{{/if}}

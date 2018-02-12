@@ -7,6 +7,7 @@ const PENDING_LABEL = 'Receiving';
 const PROCESSING_LABEL = 'Processing';
 const UNREVIEWED_LABEL = 'Unreviewed';
 const APPROVED_LABEL = 'Approved';
+const NO_DIFFS_LABEL = 'No Changes';
 const FAILED_LABEL = 'Failed';
 const EXPIRED_LABEL = 'Expired';
 
@@ -84,7 +85,11 @@ export default DS.Model.extend({
       return PROCESSING_LABEL;
     } else if (this.get('isFinished')) {
       if (this.get('isApproved')) {
-        return APPROVED_LABEL;
+        if (this.get('reviewStateReason') === 'no_diffs') {
+          return NO_DIFFS_LABEL;
+        } else {
+          return APPROVED_LABEL;
+        }
       } else if (this.get('isUnreviewed')) {
         return UNREVIEWED_LABEL;
       }

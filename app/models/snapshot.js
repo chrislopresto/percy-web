@@ -1,6 +1,9 @@
 import DS from 'ember-data';
 import {equal} from '@ember/object/computed';
 
+export const SNAPSHOT_APPROVED_STATE = 'approved';
+export const SNAPSHOT_UNAPPROVED_STATE = 'unreviewed';
+
 export default DS.Model.extend({
   comparisons: DS.hasMany('comparisons', {
     async: false,
@@ -12,8 +15,8 @@ export default DS.Model.extend({
 
   // Review state.
   reviewState: DS.attr(),
-  isUnreviewed: equal('reviewState', 'unreviewed'),
-  isApproved: equal('reviewState', 'approved'),
+  isUnreviewed: equal('reviewState', SNAPSHOT_UNAPPROVED_STATE),
+  isApproved: equal('reviewState', SNAPSHOT_APPROVED_STATE),
 
   // reviewStateReason provides disambiguation for how reviewState was set, such as when a
   // snapshot was approved automatically by the system when there are no diffs vs. when it is

@@ -30,6 +30,7 @@ module.exports = {
     semi: ['error', 'always'],
     'space-unary-ops': ['error', {nonwords: false}],
     'comma-dangle': ['error', 'always-multiline'],
+    'no-unused-expressions': ["error", { "allowTernary": true }],
   },
   globals: {
     "Raven": true

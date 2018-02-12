@@ -33,7 +33,6 @@ module.exports = function(environment) {
         logout: '/api/auth/logout',
 
         builds: '/api/v1/builds',
-        approveBuild: '/api/v1/builds/%@/approve',
         githubIntegrationRequest: '/api/v1/organizations/%@/github-integration-request',
         passwordChangeRequest: '/api/v1/user/identities/%@/password-change-request',
         identities: '/api/v1/user/identities',

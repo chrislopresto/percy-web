@@ -1,7 +1,9 @@
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import {inject as service} from '@ember/service';
 
 export default Route.extend(AuthenticatedRouteMixin, {
+  cachedSnapshotOrder: service(),
   queryParams: {
     activeSnapshotId: {as: 'snapshot', replace: true},
   },
@@ -19,6 +21,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
     if (isExiting) {
       // Clear the query parameter when exiting the route.
       controller.set('activeSnapshotId', undefined);
+      // Clear cached snapshot order between route transitions.
+      this.get('cachedSnapshotOrder').resetCachedSnapshotOrder();
     }
   },
   actions: {
@@ -66,6 +70,18 @@ export default Route.extend(AuthenticatedRouteMixin, {
       this.send('updateModalState', false);
       this.transitionTo('organization.project.builds.build', buildId, {
         queryParams: {activeSnapshotId: snapshotId},
+      });
+    },
+
+    createReview(action, build, snapshots) {
+      const review = this.get('store').createRecord('review', {
+        build: build,
+        snapshots: snapshots,
+      });
+      return review.save().then(() => {
+        const build = this.modelFor(this.routeName);
+        build.get('comparisons').reload();
+        build.reload();
       });
     },
   },

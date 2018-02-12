@@ -3,6 +3,10 @@ import freezeMoment from '../helpers/freeze-moment';
 import moment from 'moment';
 import sinon from 'sinon';
 
+// TODO once PR#403 is merged, write tests for approving snapshot, make sure order is correct
+// TODO once PR#403 is merged, write test for being on build page with batched collapsed snapshots,
+// expand batched snapshots, navigate to another build, assert snapshots are correct for that build
+
 // TODO convert this file to use page objects
 describe('Acceptance: Pending Build', function() {
   freezeMoment('2018-05-22');
@@ -267,7 +271,7 @@ describe('Acceptance: Build', function() {
 
     percySnapshot(this.test.fullTitle() + ' | shows batched no diffs');
 
-    click('[data-test-hide-no-diffs]');
+    click('[data-test-toggle-no-diffs]');
     andThen(() => {
       expect(find('.ComparisonViewer-noDiffBox')).to.have.lengthOf(1);
     });

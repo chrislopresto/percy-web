@@ -17,11 +17,12 @@
     snapshotWidthChangeTriggered=snapshotWidthChangeTriggered
     build=build
     showSnapshotFullModalTriggered=showSnapshotFullModalTriggered
+    createReview=createReview
   }}
 {{/each}}
 {{#if hideNoDiffs}}
   <div class="SnapshotViewer SnapshotViewer--actionable">
-    <div class="SnapshotViewer-header flex align-center justify-center text-weight-bold p-2 mx-2 mb-2 bg-gray-000 rounded border border-gray-100 c-pointer" data-test-hide-no-diffs {{action "toggleNoDiffSnapshots"}}>
+    <div class="SnapshotViewer-header flex align-center justify-center text-weight-bold p-2 mx-2 mb-2 bg-gray-000 rounded border border-gray-100 c-pointer" data-test-toggle-no-diffs {{action "toggleNoDiffSnapshots"}}>
       <figure class="svg-container">
         {{inline-svg "no-comparison-group-icon" class="mr-1"}}
       </figure>

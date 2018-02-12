@@ -78,6 +78,16 @@
           </figure>
         </button>
       </div>
+
+      {{#if (is-admin)}}
+        <div class="btn-group">
+          {{snapshot-approval-button
+            snapshot=snapshot
+            createReview=createReview
+          }}
+        </div>
+      {{/if}}
+
     </div>
   </div>
 </header>

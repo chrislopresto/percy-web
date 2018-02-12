@@ -282,6 +282,12 @@ button,
     color: var(--white);
     background: var(--green-gradient);
   }
+
+  &.is-loading {
+    background-image: linear-gradient(-45deg, #4fd960 25%, #43cb54 25%, #43cb54 50%, #4fd960 50%, #4fd960 75%, #43cb54 75%, #43cb54);
+    background-size: 20px 20px;
+    animation: loading 2s linear infinite;
+  }
 }
 
 .btn-alt-success {
@@ -298,9 +304,9 @@ button,
   }
 }
 
-.approval-button {
+.build-approval-button {
   position: relative;
-  width: 128px;
+  width: 146px;
   overflow: hidden;
   transition: width 250ms;
 
@@ -314,14 +320,8 @@ button,
     }
 
     .svg-container {
-      transform: translate3d(30px, -50%, 0) rotate(-10deg);
+      transform: translate3d(38px, -50%, 0) rotate(-10deg);
     }
-  }
-
-  &.is-loading {
-    background-image: linear-gradient(-45deg, #4fd960 25%, #43cb54 25%, #43cb54 50%, #4fd960 50%, #4fd960 75%, #43cb54 75%, #43cb54);
-    background-size: 20px 20px;
-    animation: loading 2s linear infinite;
   }
 
   &.is-approved {

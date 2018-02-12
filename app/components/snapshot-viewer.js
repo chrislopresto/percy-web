@@ -3,8 +3,16 @@ import {computed} from '@ember/object';
 import Component from '@ember/component';
 
 export default Component.extend({
-  classNames: ['SnapshotViewer mb-2'],
   snapshot: null,
+  classNames: ['SnapshotViewer mb-2'],
+  classNameBindings: [
+    'isFocus:SnapshotViewer--focus',
+    'isExpanded::SnapshotViewer--collapsed',
+    'isActionable:SnapshotViewer--actionable',
+  ],
+  attributeBindings: ['data-test-snapshot-viewer'],
+  'data-test-snapshot-viewer': true,
+
   buildContainerSelectedWidth: null,
   registerChild() {},
   unregisterChild() {},
@@ -41,17 +49,16 @@ export default Component.extend({
     return comparison;
   }),
 
-  classNameBindings: [
-    'isFocus:SnapshotViewer--focus',
-    'isExpanded::SnapshotViewer--collapsed',
-    'isActionable:SnapshotViewer--actionable',
-  ],
   isDefaultExpanded: true,
   isFocus: false,
-  isExpanded: computed('isDefaultExpanded', function() {
-    // TODO: this is just to break the binding with isDefaultExpanded,
-    // fix this when migrating to later ember versions with default one-way bindings.
-    return this.get('isDefaultExpanded');
+  isExpanded: computed('isDefaultExpanded', 'snapshot.isApproved', 'build.isApproved', function() {
+    if (this.get('build.isApproved')) {
+      return true;
+    } else if (this.get('snapshot.isApproved')) {
+      return false;
+    } else {
+      return this.get('isDefaultExpanded');
+    }
   }),
   isNotExpanded: not('isExpanded'),
   isActionable: alias('isNotExpanded'),

@@ -4,9 +4,12 @@ import ArrayProxy from '@ember/array/proxy';
 import $ from 'jquery';
 import {computed} from '@ember/object';
 import Component from '@ember/component';
+import {inject as service} from '@ember/service';
 
 export default Component.extend({
   classNames: ['SnapshotList'],
+  attributeBindings: ['data-test-snapshot-list'],
+  'data-test-snapshot-list': true,
 
   activeSnapshotId: null,
   buildContainerSelectedWidth: null,
@@ -83,16 +86,33 @@ export default Component.extend({
       return total + snapshot.get('comparisons.length');
     }, 0);
   }),
+
+  cachedSnapshotOrder: service(),
   computedSnapshots: computed(
     'hideNoDiffs',
-    'snapshotsWithDiffs.[]',
-    'snapshotsWithoutDiffs.[]',
+    'snapshotsWithDiffs.@each.isApproved',
+    'snapshotsWithoutDiffs.@each.isApproved',
     function() {
-      if (this.get('hideNoDiffs')) {
-        return this.get('snapshotsWithDiffs');
-      } else {
-        return [].concat(this.get('snapshotsWithDiffs'), this.get('snapshotsWithoutDiffs'));
+      if (this.get('cachedSnapshotOrder').shouldUseCachedSnapshots()) {
+        return this.get('cachedSnapshotOrder').getOrderedSnapshots();
       }
+
+      const snapshots = this.get('hideNoDiffs')
+        ? this.get('snapshotsWithDiffs')
+        : [].concat(this.get('snapshotsWithDiffs'), this.get('snapshotsWithoutDiffs'));
+      const approvedSnapshots = [];
+      const unapprovedSnapshots = [];
+      snapshots.forEach(snapshot => {
+        if (snapshot.get('isApproved')) {
+          approvedSnapshots.push(snapshot);
+        } else {
+          unapprovedSnapshots.push(snapshot);
+        }
+      });
+
+      const orderedSnapshots = [].concat(unapprovedSnapshots, approvedSnapshots);
+      this.get('cachedSnapshotOrder').setOrderedSnapshots(orderedSnapshots);
+      return orderedSnapshots;
     },
   ),
   isDefaultExpanded: computed('snapshotsWithDiffs', function() {
@@ -206,6 +226,7 @@ export default Component.extend({
     },
     toggleNoDiffSnapshots() {
       this.toggleProperty('hideNoDiffs');
+      this.get('cachedSnapshotOrder').setHideNoDiffsChanged();
       window.scrollTo(0, 0);
     },
   },

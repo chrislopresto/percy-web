@@ -1,4 +1,6 @@
 import {create, clickable, isVisible, hasClass, text, collection} from 'ember-cli-page-object';
+import {SnapshotApprovalButton} from 'percy-web/tests/pages/components/snapshot-approval-button';
+import {alias} from 'ember-cli-page-object/macros';
 
 const SELECTORS = {
   HEADER: '[data-test-SnapshotViewer-header]',
@@ -55,6 +57,11 @@ export const SnapshotViewerHeader = {
   }),
   isToggleWidthsOptionVisible: isVisible(SELECTORS.DROPDOWN_TOGGLE_WIDTHS_OPTION),
   clickToggleAllWidths: clickable(SELECTORS.DROPDOWN_TOGGLE_WIDTHS_OPTION),
+
+  snapshotApprovalButton: SnapshotApprovalButton,
+  clickApprove: alias('snapshotApprovalButton.clickButton'),
+  isApproved: alias('snapshotApprovalButton.isApproved'),
+  isUnapproved: alias('snapshotApprovalButton.isUnapproved'),
 };
 
 export default create(SnapshotViewerHeader);

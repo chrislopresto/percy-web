@@ -40,8 +40,9 @@
     z-index: 1001;
 
     .SnapshotViewerFull-body {
+      --snapshot-header-height: 58px;
       height: 100vh;
-      padding-top: 41px;
+      padding-top: var(--snapshot-header-height);
       padding-bottom: 40px;
       text-align: center;
       cursor: pointer;

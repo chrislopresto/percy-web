@@ -2,12 +2,16 @@
 /* eslint-disable no-unused-expressions */
 import {setupComponentTest} from 'ember-mocha';
 import {expect} from 'chai';
-import {it, describe, beforeEach} from 'mocha';
+import {it, describe, beforeEach, afterEach} from 'mocha';
 import {percySnapshot} from 'ember-percy';
 import hbs from 'htmlbars-inline-precompile';
 import {make, manualSetup} from 'ember-data-factory-guy';
 import sinon from 'sinon';
 import SnapshotViewerPO from 'percy-web/tests/pages/components/snapshot-viewer';
+import {resolve} from 'rsvp';
+import adminMode from 'percy-web/lib/admin-mode';
+import {SNAPSHOT_APPROVED_STATE, SNAPSHOT_UNAPPROVED_STATE} from 'percy-web/models/snapshot';
+import wait from 'ember-test-helpers/wait';
 
 describe('Integration: SnapshotViewer', function() {
   setupComponentTest('snapshot-viewer', {
@@ -17,15 +21,18 @@ describe('Integration: SnapshotViewer', function() {
   let snapshotTitle;
   let showSnapshotFullModalTriggeredStub;
   let snapshot;
+  let createReviewStub;
 
   beforeEach(function() {
     manualSetup(this.container);
     SnapshotViewerPO.setContext(this);
 
     showSnapshotFullModalTriggeredStub = sinon.stub();
+    createReviewStub = sinon.stub().returns(resolve());
     snapshotTitle = 'Awesome snapshot title';
     snapshot = make('snapshot', 'withComparisons', {name: snapshotTitle});
     const build = make('build');
+    build.set('snapshots', [snapshot]);
     const stub = sinon.stub();
 
     this.setProperties({
@@ -34,6 +41,9 @@ describe('Integration: SnapshotViewer', function() {
       build,
       userSelectedWidth: null,
       showSnapshotFullModalTriggered: showSnapshotFullModalTriggeredStub,
+      createReview: createReviewStub,
+      // true is the default in the component
+      isDefaultExpanded: true,
     });
   });
 
@@ -44,6 +54,7 @@ describe('Integration: SnapshotViewer', function() {
       showSnapshotFullModalTriggered=showSnapshotFullModalTriggered
       snapshotWidthChangeTriggered=stub
       userSelectedWidth=userSelectedWidth
+      createReview=createReview
     }}`);
 
     expect(SnapshotViewerPO.header.isTitleVisible, 'title should be visible').to.equal(true);
@@ -60,6 +71,7 @@ describe('Integration: SnapshotViewer', function() {
       showSnapshotFullModalTriggered=showSnapshotFullModalTriggered
       snapshotWidthChangeTriggered=stub
       userSelectedWidth=userSelectedWidth
+      createReview=createReview
     }}`);
 
     percySnapshot(this.test);
@@ -73,6 +85,7 @@ describe('Integration: SnapshotViewer', function() {
         showSnapshotFullModalTriggered=showSnapshotFullModalTriggered
         snapshotWidthChangeTriggered=stub
         userSelectedWidth=userSelectedWidth
+        createReview=createReview
       }}`);
     });
 
@@ -92,6 +105,7 @@ describe('Integration: SnapshotViewer', function() {
         showSnapshotFullModalTriggered=showSnapshotFullModalTriggered
         snapshotWidthChangeTriggered=stub
         userSelectedWidth=userSelectedWidth
+        createReview=createReview
       }}`);
 
       expect(SnapshotViewerPO.header.widthSwitcher.buttons(0).isActive).to.equal(false);
@@ -109,6 +123,7 @@ describe('Integration: SnapshotViewer', function() {
         showSnapshotFullModalTriggered=showSnapshotFullModalTriggered
         snapshotWidthChangeTriggered=stub
         userSelectedWidth=userSelectedWidth
+        createReview=createReview
       }}`);
 
       expect(SnapshotViewerPO.header.widthSwitcher.buttons(0).isActive).to.equal(false);
@@ -123,6 +138,7 @@ describe('Integration: SnapshotViewer', function() {
         showSnapshotFullModalTriggered=showSnapshotFullModalTriggered
         snapshotWidthChangeTriggered=stub
         userSelectedWidth=userSelectedWidth
+        createReview=createReview
       }}`);
 
       SnapshotViewerPO.header.widthSwitcher.buttons(0).click();
@@ -150,6 +166,7 @@ describe('Integration: SnapshotViewer', function() {
         showSnapshotFullModalTriggered=showSnapshotFullModalTriggered
         snapshotWidthChangeTriggered=stub
         userSelectedWidth=userSelectedWidth
+        createReview=createReview
       }}`);
     });
 
@@ -166,6 +183,111 @@ describe('Integration: SnapshotViewer', function() {
         this.get('snapshot.id'),
         selectedWidth,
       );
+    });
+  });
+
+  describe('expand/collapse', function() {
+    beforeEach(function() {
+      this.render(hbs`{{snapshot-viewer
+        snapshot=snapshot
+        build=build
+        showSnapshotFullModalTriggered=showSnapshotFullModalTriggered
+        snapshotWidthChangeTriggered=stub
+        userSelectedWidth=userSelectedWidth
+        createReview=createReview
+      }}`);
+    });
+
+    it('is expanded by default when the snapshot is unapproved', function() {
+      this.set('snapshot.reviewState', SNAPSHOT_UNAPPROVED_STATE);
+      expect(SnapshotViewerPO.isExpanded).to.equal(true);
+    });
+
+    it('is collapsed by default when the snapshot is approved', function() {
+      this.set('snapshot.reviewState', SNAPSHOT_APPROVED_STATE);
+      expect(SnapshotViewerPO.isExpanded).to.equal(false);
+    });
+
+    it('is collapsed when isDefaultExpanded is false', function() {
+      this.set('snapshot.reviewState', SNAPSHOT_UNAPPROVED_STATE);
+      this.set('isDefaultExpanded', false);
+
+      return wait(() => {
+        expect(SnapshotViewerPO.isExpanded).to.equal(false);
+      });
+    });
+
+    it('is expanded when build is approved', function() {
+      this.set('snapshot.reviewState', SNAPSHOT_APPROVED_STATE);
+      this.set('build.isApproved', true);
+
+      expect(SnapshotViewerPO.isExpanded).to.equal(true);
+    });
+  });
+});
+
+describe('Integration: SnapshotViewer with per snapshot approval', function() {
+  setupComponentTest('snapshot-viewer', {
+    integration: true,
+  });
+
+  let snapshotTitle;
+  const widthIndex = 1;
+  // NOTE: these need to be the same as the widths in the snapshot factory
+  const buildWidths = [375, 550, 1024];
+  const buildContainerSelectedWidth = buildWidths[widthIndex];
+  let showSnapshotFullModalTriggeredStub;
+  let createReviewStub;
+
+  beforeEach(function() {
+    adminMode.setAdminMode();
+  });
+  afterEach(function() {
+    adminMode.clear();
+  });
+
+  beforeEach(function() {
+    manualSetup(this.container);
+    SnapshotViewerPO.setContext(this);
+
+    showSnapshotFullModalTriggeredStub = sinon.stub();
+    createReviewStub = sinon.stub().returns(resolve());
+    snapshotTitle = 'Awesome snapshot title';
+    const snapshot = make('snapshot', {name: snapshotTitle});
+    const build = make('build');
+    build.set('snapshots', [snapshot]);
+    const stub = sinon.stub();
+
+    this.setProperties({
+      stub,
+      snapshot,
+      build,
+      buildWidths,
+      buildContainerSelectedWidth,
+      showSnapshotFullModalTriggered: showSnapshotFullModalTriggeredStub,
+      createReview: createReviewStub,
+    });
+
+    this.render(hbs`{{snapshot-viewer
+      snapshot=snapshot
+      build=build
+      buildWidths=buildWidths
+      buildContainerSelectedWidth=buildContainerSelectedWidth
+      showSnapshotFullModalTriggered=showSnapshotFullModalTriggered
+      snapshotWidthChangeTriggered=stub
+      createReview=createReview
+    }}`);
+  });
+
+  // TODO: move this test into main block when the feature ships for real
+  describe('approve snapshot button', function() {
+    it('sends createReview with correct arguments when approve button is clicked', function() {
+      percySnapshot(this.test);
+
+      SnapshotViewerPO.header.clickApprove();
+      expect(createReviewStub).to.have.been.calledWith('approve', this.get('build'), [
+        this.get('build.snapshots.firstObject'),
+      ]);
     });
   });
 });
