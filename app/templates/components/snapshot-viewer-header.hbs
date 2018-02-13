@@ -1,10 +1,9 @@
 <header class="SnapshotViewer-header sticky grid gap-4 z-1 px-2 py-1 bg-gray-000 border-top border-bottom border-gray-100 {{if fullscreen 'SnapshotViewer-header-full position-fixed vw-full z-1'}}" data-test-SnapshotViewer-header>
   <div class="flex align-center truncate">
 
-    <figure class="svg-container" data-test-SnapshotViewer-comparisonIcon>
+    <figure class="svg-container mr-1" data-test-SnapshotViewer-comparisonIcon>
       {{comparison-icon
-        hasComparison=hasComparisonAtSelectedWidth
-        svgClassName="mr-1"
+        noComparisonsHaveDiffs=noComparisonsHaveDiffs
       }}
     </figure>
 
