@@ -219,7 +219,6 @@ describe('Integration: SnapshotViewerFull with per snapshot approval', function(
   // TODO: move this test into main block when the feature ships for real
   describe('approve snapshot button', function() {
     it('sends createReview with correct arguments when approve button is clicked', function() {
-      percySnapshot(this.test);
       SnapshotViewerPO.header.clickApprove();
       expect(createReviewStub).to.have.been.calledWith('approve', this.get('build'), [
         this.get('build.snapshots.firstObject'),
