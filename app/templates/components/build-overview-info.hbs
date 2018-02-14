@@ -1,33 +1,39 @@
-{{#if build.isGithubLinked}}
-  {{#if build.isPullRequest}}
-    <h2>
-      {{build-overview-icon icon='pull-request'}}
-      {{#if build.pullRequestTitle}}
-        <a href="{{build.repo.htmlUrl}}/pull/{{build.pullRequestNumber}}">{{build.pullRequestTitle}}</a>
-      {{/if}}
-      {{#if build.pullRequestNumber}}
-        <span class="BuildOverviewInfo-prNumber">
-          {{#if build.pullRequestTitle}}
-            #{{build.pullRequestNumber}}
-          {{else}}
-            <a href="{{build.repo.htmlUrl}}/pull/{{build.pullRequestNumber}}">#{{build.pullRequestNumber}}</a>                  
-          {{/if}}
-        </span>
-      {{/if}}
-    </h2>
+<div class="">
+  <div class="f2 lh-1 text-weight-semibold mb-1">
+    Build <span class="text-mono text-purple">{{build.buildNumber}}</span>
+    {{!-- {{build-info-dropdown build=build}} --}}
+  </div>
+  {{#if build.isGithubLinked}}
+    {{#if build.isPullRequest}}
+      <div>
+        {{build-overview-icon icon='pull-request'}}
+        {{#if build.pullRequestTitle}}
+          <a href="{{build.repo.htmlUrl}}/pull/{{build.pullRequestNumber}}">{{build.pullRequestTitle}}</a>
+        {{/if}}
+        {{#if build.pullRequestNumber}}
+          <span class="BuildOverviewInfo-prNumber">
+            {{#if build.pullRequestTitle}}
+              #{{build.pullRequestNumber}}
+            {{else}}
+              <a href="{{build.repo.htmlUrl}}/pull/{{build.pullRequestNumber}}">#{{build.pullRequestNumber}}</a>
+            {{/if}}
+          </span>
+        {{/if}}
+      </div>
+    {{else}}
+      <div class="grid col-auto gap-1 align-center">
+        {{!-- {{build-overview-icon icon='branch'}} --}}
+        {{inline-svg 'branch'}}
+        <code class="truncate">
+          {{build.branch}}
+        </code>
+        <a class="f6 text-mono" href="{{build.repo.htmlUrl}}/commit/{{build.commit.sha}}">{{build.commit.shaShort}}</a>
+      </div>
+    {{/if}}
   {{else}}
-    <h2>
+    <div>
       {{build-overview-icon icon='branch'}}
-      <a href="{{build.repo.htmlUrl}}/tree/{{build.branch}}">
-        {{build.branch}}
-      </a>
-    </h2>
+      {{build.branch}}
+    </div>
   {{/if}}
-{{else}}
-  <h2>
-    {{build-overview-icon icon='branch'}}
-    {{build.branch}}
-  </h2>
-{{/if}}
-
-{{build-info-dropdown build=build}}
+</div>

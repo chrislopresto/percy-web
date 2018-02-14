@@ -6,6 +6,7 @@
 
 .text-mono {
   font-family: var(--keratin-monospace-font) !important;
+  font-weight: 400 !important;
   letter-spacing: 0.5px !important;
 }
 
@@ -25,3 +26,7 @@
 }
 
 .no-wrap { white-space: nowrap; }
+
+.lh-1 {
+  line-height: 1 !important;
+}

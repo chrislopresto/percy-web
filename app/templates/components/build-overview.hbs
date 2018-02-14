@@ -1,38 +1,42 @@
-<div class="BuildOverview-status">
+<div class="grid col-auto gap-2 align-center">
   {{! TODO: this needs a complete revamp to rely on build.reviewState and reviewStateReason. }}
-  <span class="BuildOverview-statusBar">&nbsp;</span>
-  {{#if build.isPending}}
-    <h1>Receiving build</h1>
-    <h2>Hang tight&hellip; {{fa-icon 'spinner fa-pulse'}}</h2>
-  {{else if build.isProcessing}}
-    <h1>Processing visual differences</h1>
-    <h2>Hang tight&hellip; {{fa-icon 'spinner fa-pulse'}}</h2>
-  {{else if build.isFinished}}
-    {{#if build.hasDiffs}}
-      <h1>{{pluralize build.totalComparisonsDiff "visual difference"}}</h1>
-    {{else}}
-      <h1>No visual differences</h1>
+  {{inline-svg 'comparison-icon'}}
+  <div class="f2 lh-1 text-weight-semibold">
+    {{#if build.isPending}}
+      Receiving build
+      Hang tight&hellip; {{fa-icon 'spinner fa-pulse'}}
+    {{else if build.isProcessing}}
+      Processing visual differences
+      Hang tight&hellip; {{fa-icon 'spinner fa-pulse'}}
+    {{else if build.isFinished}}
+      {{#if build.hasDiffs}}
+        {{build.totalSnapshotsUnreviewed}} unreviewed
+      {{else}}
+        No visual differences
+      {{/if}}
+    {{else if build.isFailed}}
+      This build has failed
+    {{else if build.isExpired}}
+      This build has expired
     {{/if}}
-  {{else if build.isFailed}}
-    <h1>This build has failed</h1>
-  {{else if build.isExpired}}
-    <h1>This build has expired</h1>
-  {{/if}}
-
+  </div>
+</div>
+<div class="f5 text-weight-semibold">
   {{#if build.isFinished}}
-    <h2>
-      in {{pluralize build.totalComparisonsFinished "snapshot"}}
+    <div>
+      {{build.totalSnapshots}} <span class="text-light">total snapshots</span>
       {{#if build.isApproved}}
         were <strong>approved</strong>
         {{#if build.approvedBy}}
           <span class="ApprovalSection-user">by {{build.approvedBy.name}}</span>
         {{/if}}
       {{/if}}
-    </h2>
+    </div>
   {{else if build.isFailed}}
-    <h2>{{build.failureReasonHumanized}}.</h2>
+    <div>{{build.failureReasonHumanized}}.</div>
   {{/if}}
 </div>
+
 <div class="BuildOverview-info">
   {{#if build.isPending}}
     <p>

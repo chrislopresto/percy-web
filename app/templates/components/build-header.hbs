@@ -1,10 +1,6 @@
-<div class="BuildHeader-inner">
-  <div class="row">
-    <div class="six columns">
-      {{build-overview build=build showSupport=showSupport}}
-    </div>
-    <div class="six columns">
-      {{build-overview-info build=build}}
-    </div>
+<div class="build-header flex justify-between align-center py-3 pr-2 pl-3 is-{{dasherize build.state}} is-{{if build.isFinished (dasherize build.reviewState)}}">
+  {{build-overview-info build=build}}
+  <div class="text-right">
+    {{build-overview build=build showSupport=showSupport}}
   </div>
 </div>

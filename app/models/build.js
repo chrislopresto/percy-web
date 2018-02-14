@@ -68,6 +68,10 @@ export default DS.Model.extend({
   // Each comparison represents a single individual rendering at a width and browser.
   totalSnapshots: DS.attr('number'),
   totalSnapshotsUnreviewed: DS.attr('number'),
+  totalSnapshotsApprovedByUser: computed('totalSnapshots', 'totalSnapshotsUnreviewed', function() {
+    return this.get('totalSnapshots') - this.get('totalSnapshotsUnreviewed');
+  }),
+
   totalComparisonsFinished: DS.attr('number'),
   totalComparisonsDiff: DS.attr('number'),
   hasDiffs: computed('totalComparisonsDiff', function() {
