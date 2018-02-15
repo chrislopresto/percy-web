@@ -1,5 +1,13 @@
-{{#if noComparisonsHaveDiffs}}
-  {{inline-svg "no-comparison-icon"}}
-{{else}}
-  {{inline-svg "comparison-icon"}}
-{{/if}}
+<figure class="svg-container">
+  {{#if (or build.isPending build.isProcessing)}}
+    {{inline-svg "loader-icon"}}
+  {{else if build.isFailed}}
+    {{inline-svg "null-comparison-icon"}}
+  {{else if build.hasNoDiffs}}
+    {{inline-svg "no-comparison-icon"}}
+  {{else if build.isApproved}}
+    {{inline-svg "comparison-approved-icon"}}
+  {{else}}
+    {{inline-svg "comparison-icon"}}
+  {{/if}}
+</figure>

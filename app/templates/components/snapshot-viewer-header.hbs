@@ -2,9 +2,11 @@
   <div class="flex align-center truncate">
 
     <figure class="svg-container mr-1" data-test-SnapshotViewer-comparisonIcon>
-      {{comparison-icon
-        noComparisonsHaveDiffs=noComparisonsHaveDiffs
-      }}
+      {{#if noComparisonsHaveDiffs}}
+        {{inline-svg "no-comparison-icon"}}
+      {{else}}
+        {{inline-svg "comparison-icon"}}
+      {{/if}} 
     </figure>
 
     <div class="Viewer-header-title SnapshotViewer-title c-default truncate text-weight-bold" title="{{snapshot.name}}" data-test-SnapshotViewer-title>{{snapshot.name}}</div>
