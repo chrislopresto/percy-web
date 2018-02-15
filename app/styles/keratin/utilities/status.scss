@@ -12,7 +12,7 @@
 
 .is-unreviewed {
   --status-color: var(--purple-600) !important;
-  --status-text-color: var(--purple-700) !important;
+  --status-text-color: var(--purple-600) !important;
   --status-background-color: var(--purple-300) !important;
 }
 
@@ -32,4 +32,8 @@
   --status-color: var(--gray-100) !important;
   --status-text-color: var(--light-text-color) !important;
   --status-background-color: var(--gray-100) !important;
+}
+
+.status-text {
+  color: var(--status-text-color, var(--dark-text-color)) !important;
 }
