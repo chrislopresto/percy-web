@@ -37,17 +37,9 @@
     </div>
   </div>
   <div class="flex align-center">
-    {{#if (or build.isPending build.isProcessing)}}
-      {{inline-svg "loader-icon" class="mr-2"}}
-    {{else if build.isFailed}}
-      {{inline-svg "null-comparison-icon" class="mr-2"}}
-    {{else if build.hasNoDiffs}}
-      {{inline-svg "no-comparison-icon" class="mr-2"}}
-    {{else if build.isApproved}}
-      {{inline-svg "comparison-approved-icon" class="mr-2"}}
-    {{else}}
-      {{inline-svg "comparison-icon" class="mr-2"}}
-    {{/if}}
+    <div class="mr-2">
+      {{comparison-icon build=build}}
+    </div>
     <div>
       {{#if build.isPending}}
         <span class="f6 text-weight-semibold text-light">Receiving Build</span>
@@ -56,18 +48,17 @@
       {{else if build.isFailed}}
         <span class="text-weight-semibold text-light">{{build.failureReasonHumanized}}</span>
       {{else}}
+        {{#if build.hasDiffs}}
+          {{#unless build.isApproved}}
+            <div class="no-wrap">
+              <strong>{{build.totalSnapshotsUnreviewed}}</strong>
+              <span class="f6 text-light text-weight-semibold">unreviewed</span>
+            </div>
+          {{/unless}}
+        {{/if}}
         <div class="no-wrap">
-          {{#if build.hasDiffs}}
-            <strong>{{build.totalComparisonsDiff}}</strong>
-            <span class="f6 text-light text-weight-semibold">{{pluralize build.totalComparisonsDiff "visual diff" without-count=true}}</span>
-          {{else}}
-            <strong>0</strong>
-            <span class="f6 text-light text-weight-semibold">visual diffs</span>
-          {{/if}}
-        </div>
-        <div class="no-wrap">
-          <strong>{{build.totalComparisonsFinished}}</strong>
-          <span class="f6 text-light text-weight-semibold">{{pluralize build.totalComparisonsFinished "total snapshot" without-count=true}}</span>
+          <strong>{{build.totalSnapshots}}</strong>
+          <span class="f6 text-light text-weight-semibold">{{pluralize build.totalSnapshots "total snapshot" without-count=true}}</span>
         </div>
       {{/if}}
     </div>
