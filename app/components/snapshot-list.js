@@ -52,13 +52,6 @@ export default Component.extend({
     'snapshotsWithDiffs.@each.isApproved',
     'snapshotsWithoutDiffs.@each.isApproved',
     function() {
-      if (
-        this.get('build.isFinished') &&
-        this.get('cachedSnapshotOrder').shouldUseCachedSnapshots()
-      ) {
-        return this.get('cachedSnapshotOrder').getOrderedSnapshots();
-      }
-
       const snapshots = this.get('hideNoDiffs')
         ? this.get('snapshotsWithDiffs')
         : [].concat(this.get('snapshotsWithDiffs'), this.get('snapshotsWithoutDiffs'));
@@ -73,7 +66,6 @@ export default Component.extend({
       });
 
       const orderedSnapshots = [].concat(unapprovedSnapshots, approvedSnapshots);
-      this.get('cachedSnapshotOrder').setOrderedSnapshots(orderedSnapshots);
       return orderedSnapshots;
     },
   ),
