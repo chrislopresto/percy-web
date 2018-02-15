@@ -1,35 +1,35 @@
-<div class="grid col-auto gap-2 align-center">
+<div class="grid col-auto gap-1 align-center">
   {{! TODO: this needs a complete revamp to rely on build.reviewState and reviewStateReason. }}
-  {{inline-svg 'comparison-icon'}}
-  <div class="f2 lh-1 text-weight-semibold">
-    {{#if build.isPending}}
-      Receiving build
-      Hang tight&hellip; {{fa-icon 'spinner fa-pulse'}}
-    {{else if build.isProcessing}}
-      Processing visual differences
-      Hang tight&hellip; {{fa-icon 'spinner fa-pulse'}}
-    {{else if build.isFinished}}
-      {{#if build.hasDiffs}}
-        {{build.totalSnapshotsUnreviewed}} unreviewed
+  {{comparison-icon build=build}}
+  {{#if build.isPending}}
+    Receiving build
+    Hang tight&hellip;
+  {{else if build.isProcessing}}
+    <div class="f2 lh-1 text-weight-semibold">Processing visual differences</div>
+    <div class="f5 text-weight-semibold text-light">Hang tight&hellip;</div>
+  {{else if build.isFinished}}
+    {{#if build.isApproved}}
+      {{#if build.hasNoDiffs}}
+        <div class="f2 lh-1 text-weight-semibold">No visual diffs</div>
       {{else}}
-        No visual differences
+        <div class="f2 lh-1 text-weight-semibold">All diffs approved</div>
       {{/if}}
-    {{else if build.isFailed}}
-      This build has failed
-    {{else if build.isExpired}}
-      This build has expired
+    {{else if build.hasDiffs}}
+      <div class="f2 lh-1 text-weight-semibold">{{pluralize build.totalSnapshotsUnreviewed "unreviewed changes"}}</div>
     {{/if}}
-  </div>
+  {{else if build.isFailed}}
+    This build has failed
+  {{else if build.isExpired}}
+    This build has expired
+  {{/if}}
 </div>
 <div class="f5 text-weight-semibold">
   {{#if build.isFinished}}
     <div>
-      {{build.totalSnapshots}} <span class="text-light">total snapshots</span>
       {{#if build.isApproved}}
-        were <strong>approved</strong>
-        {{#if build.approvedBy}}
-          <span class="ApprovalSection-user">by {{build.approvedBy.name}}</span>
-        {{/if}}
+        <span class="text-light">{{moment-from-now build.approvedAt interval=60000}}</span>
+      {{else}}
+        <span class="text-light">in</span> {{build.totalSnapshots}} <span class="text-light">total snapshots</span>
       {{/if}}
     </div>
   {{else if build.isFailed}}
