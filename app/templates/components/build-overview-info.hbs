@@ -3,37 +3,26 @@
     Build <span class="text-mono status-text">{{build.buildNumber}}</span>
     {{!-- {{build-info-dropdown build=build}} --}}
   </div>
-  {{#if build.isGithubLinked}}
-    {{#if build.isPullRequest}}
-      <div>
-        {{build-overview-icon icon='pull-request'}}
-        {{#if build.pullRequestTitle}}
-          <a href="{{build.repo.htmlUrl}}/pull/{{build.pullRequestNumber}}">{{build.pullRequestTitle}}</a>
-        {{/if}}
-        {{#if build.pullRequestNumber}}
-          <span class="BuildOverviewInfo-prNumber">
-            {{#if build.pullRequestTitle}}
-              #{{build.pullRequestNumber}}
-            {{else}}
-              <a href="{{build.repo.htmlUrl}}/pull/{{build.pullRequestNumber}}">#{{build.pullRequestNumber}}</a>
-            {{/if}}
-          </span>
-        {{/if}}
-      </div>
-    {{else}}
-      <div class="grid col-auto gap-1 align-center">
-        {{!-- {{build-overview-icon icon='branch'}} --}}
-        {{inline-svg 'branch'}}
+  <div class="grid col-auto gap-1 align-center">
+    {{#if build.commit}}
+      {{#if build.isPullRequest}}
+        {{inline-svg "pull-request-icon"}}
+        <span class="text-weight-semibold">#{{build.pullRequestNumber}}</span>
+        <a href="{{build.repo.htmlUrl}}/pull/{{build.pullRequestNumber}}" class="no-wrap truncate text-weight-semibold">{{build.pullRequestTitle}}</a>
+      {{else}}
+        {{inline-svg "commit-icon"}}
         <code class="truncate">
           {{build.branch}}
         </code>
-        <a class="f6 text-mono" href="{{build.repo.htmlUrl}}/commit/{{build.commit.sha}}">{{build.commit.shaShort}}</a>
-      </div>
+        {{#if build.isGithubLinked}}
+          <a class="f6 text-mono" href="{{build.repo.htmlUrl}}/commit/{{build.commit.sha}}">{{build.commit.shaShort}}</a>
+        {{else}}
+          <span class="f6 text-mono">{{build.commit.shaShort}}</span>
+        {{/if}}
+      {{/if}}
     {{/if}}
-  {{else}}
-    <div>
-      {{build-overview-icon icon='branch'}}
-      {{build.branch}}
-    </div>
-  {{/if}}
+  </div>
 </div>
+
+{{!-- TODO: Look into removing this? --}}
+{{!-- {{build-overview-icon icon='branch'}} --}}
