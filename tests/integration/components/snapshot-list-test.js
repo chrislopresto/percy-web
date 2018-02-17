@@ -45,7 +45,6 @@ describe('Integration: SnapshotList', function() {
         snapshots=snapshots
         build=build
         createReview=stub
-        updateActiveSnapshotId=stub
         showSnapshotFullModalTriggered=stub
       }}`);
 
@@ -77,7 +76,6 @@ describe('Integration: SnapshotList', function() {
         snapshots=snapshots
         build=build
         createReview=stub
-        updateActiveSnapshotId=stub
         showSnapshotFullModalTriggered=stub
       }}`);
 
@@ -104,7 +102,6 @@ describe('Integration: SnapshotList', function() {
       hideNoDiffs=true
       build=build
       createReview=stub
-      updateActiveSnapshotId=stub
       showSnapshotFullModalTriggered=stub
     }}`);
 

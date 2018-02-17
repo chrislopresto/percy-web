@@ -16,7 +16,6 @@ export default Component.extend({
   lastSnapshotIndex: null,
   selectedSnapshotIndex: -1,
   snapshotComponents: null,
-  updateActiveSnapshotId: null,
 
   sortedSnapshots: computed('snapshots.[]', function() {
     return snapshotSort(this.get('snapshots').toArray());
@@ -182,8 +181,6 @@ export default Component.extend({
       let selectedIndex = this.get('selectedSnapshotIndex');
       let selectedComponent = snapshotComponents.objectAt(selectedIndex);
       let lastIndex = this.get('lastSnapshotIndex');
-
-      this.get('updateActiveSnapshotId')(selectedComponent.get('snapshot.id'));
 
       // Expand the selected component.
       selectedComponent.get('setAsSelected').call(selectedComponent);

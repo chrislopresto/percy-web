@@ -4,9 +4,6 @@ import {inject as service} from '@ember/service';
 
 export default Route.extend(AuthenticatedRouteMixin, {
   cachedSnapshotOrder: service(),
-  queryParams: {
-    activeSnapshotId: {as: 'snapshot', replace: true},
-  },
   model(params) {
     return this.store.findRecord('build', params.build_id);
   },
@@ -44,9 +41,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       };
       this.analytics.track('Build Viewed', organization, eventProperties);
     },
-    updateActiveSnapshotId(snapshotId) {
-      this.set('controller.activeSnapshotId', snapshotId);
-    },
+
     updateModalState(state) {
       this.get('currentModel').set('isShowingModal', state);
     },

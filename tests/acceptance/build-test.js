@@ -215,7 +215,6 @@ describe('Acceptance: Build', function() {
 
     andThen(() => {
       expect(BuildPage.focusedSnapshot().name).to.equal(defaultSnapshot.name);
-      expect(currentURL()).to.equal(`${urlBase}?snapshot=${defaultSnapshot.id}`);
       expect(firstSnapshot.isFocused).to.equal(true);
       expect(secondSnapshot.isFocused).to.equal(false);
       expect(thirdSnapshot.isFocused).to.equal(false);
@@ -226,7 +225,6 @@ describe('Acceptance: Build', function() {
 
     andThen(() => {
       expect(BuildPage.focusedSnapshot().name).to.equal(twoWidthsSnapshot.name);
-      expect(currentURL()).to.equal(`${urlBase}?snapshot=${twoWidthsSnapshot.id}`);
       expect(firstSnapshot.isFocused).to.equal(false);
       expect(secondSnapshot.isFocused).to.equal(true);
       expect(thirdSnapshot.isFocused).to.equal(false);
@@ -237,25 +235,9 @@ describe('Acceptance: Build', function() {
 
     andThen(() => {
       expect(BuildPage.focusedSnapshot().name).to.equal(defaultSnapshot.name);
-      expect(currentURL()).to.equal(`${urlBase}?snapshot=${defaultSnapshot.id}`);
       expect(firstSnapshot.isFocused).to.equal(true);
       expect(secondSnapshot.isFocused).to.equal(false);
       expect(thirdSnapshot.isFocused).to.equal(false);
-    });
-  });
-
-  it('adds query param when clicking on snapshot header', function() {
-    let snapshot;
-    BuildPage.visitBuild(urlParams);
-    andThen(() => {
-      snapshot = BuildPage.findSnapshotByName(defaultSnapshot.name);
-      snapshot.header.click();
-    });
-
-    andThen(() => {
-      expect(currentURL()).to.equal(
-        BuildPage.urlWithSnapshotQueryParam(defaultSnapshot, defaultSnapshot.build),
-      );
     });
   });
 
