@@ -38,19 +38,12 @@
   grid-template-columns: 1fr auto 1fr;
 }
 
-.maximize-snapshot {
-  &:hover {
-    path:first-child {
-      transform: translate3d(1px, -1px, 0);
-    }
-
-    path:last-child {
-      transform: translate3d(-1px, 1px, 0);
-    }
-  }
-}
-
+.maximize-snapshot,
 .minimize-snapshot {
+  path {
+    transition: transform 250ms cubic-bezier(0.68, -2.55, 0.265, 2.55);
+  }
+
   &:hover {
     path:first-child {
       transform: translate3d(1px, -1px, 0);

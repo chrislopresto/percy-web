@@ -3,10 +3,5 @@
 
   > svg {
     display: block;
-
-    path,
-    g {
-      transition: transform 250ms cubic-bezier(0.68, -2.55, 0.265, 2.55);
-    }
   }
 }

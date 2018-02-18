@@ -38,11 +38,7 @@
   </div>
   <div class="flex align-center">
     <div class="mr-2">
-      {{#if (or build.isPending build.isProcessing)}}
-        {{inline-svg "loader-icon"}}
-      {{else}}
-        {{comparison-icon build=build}}
-      {{/if}}
+      {{comparison-icon build=build}}
     </div>
     <div>
       {{#if build.isPending}}
