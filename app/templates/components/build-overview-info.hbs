@@ -1,7 +1,9 @@
 <div class="">
   <div class="f2 lh-1 text-weight-semibold mb-1">
     Build <span class="text-mono status-text">{{build.buildNumber}}</span>
-    {{!-- {{build-info-dropdown build=build}} --}}
+    <div class="d-inline-block">
+      {{build-info-dropdown build=build}}
+    </div>
   </div>
   <div class="grid col-auto gap-1 align-center">
     {{#if build.commit}}
