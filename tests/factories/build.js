@@ -28,6 +28,7 @@ FactoryGuy.define('build', {
           .add(31, 'seconds'),
       totalComparisonsDiff: 10,
       totalComparisonsFinished: 15,
+      totalSnapshotsUnreviewed: 8,
     },
     pending: {state: 'pending'},
     processing: {state: 'processing'},

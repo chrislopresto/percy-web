@@ -104,11 +104,14 @@ describe('Acceptance: Project', function() {
       server.create('build', {
         project,
         createdAt: moment().subtract(60, 'days'),
+        totalSnapshotsUnreviewed: 8,
+        totalSnapshots: 12,
       });
       server.create('build', {
         project,
         createdAt: moment().subtract(30, 'hours'),
         state: 'expired',
+        totalSnapshots: 12,
       });
       server.create('build', {
         project,
