@@ -145,7 +145,7 @@ export default Component.extend({
     if (!component) {
       return;
     }
-    $('.BuildContainer-body').animate({scrollTop: component.$().get(0).offsetTop}, 250);
+    window.scrollTo(0, component.$().get(0).offsetTop - 58); // 58px - build toolbar height
   },
   actions: {
     registerChild(component) {

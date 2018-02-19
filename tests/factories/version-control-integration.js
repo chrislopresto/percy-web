@@ -8,5 +8,10 @@ FactoryGuy.define('version-control-integration', {
       githubInstallationId: () => faker.random.number(),
       integrationType: 'github',
     },
+    githubEnterprise: {
+      githubEnterpriseInstallationId: () => faker.random.number(),
+      githubEnterpriseIntegrationId: () => faker.random.number(),
+      integrationType: 'github_enterprise',
+    },
   },
 });

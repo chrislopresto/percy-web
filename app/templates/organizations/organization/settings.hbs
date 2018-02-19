@@ -5,9 +5,8 @@
   {{#organizations/require-role role="admin" organization=model}}
     {{forms/organization-edit organization=model saveSuccess="organizationUpdated"}}
 
-    <hr>
-    <h4>GitHub Integration {{fa-icon "github"}}</h4>
-
     {{organizations/github-settings organization=model showSupport="showSupport"}}
+
+    {{organizations/github-enterprise-settings organization=model showSupport="showSupport"}}
   {{/organizations/require-role}}
 {{/organizations/settings-nav-wrapper}}

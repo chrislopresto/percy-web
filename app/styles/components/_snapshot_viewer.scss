@@ -16,6 +16,7 @@
 
 .SnapshotViewer-header {
   display: grid;
+  top: 58px;
   grid-template-columns: 1fr auto;
   grid-gap: 32px;
   background: var(--lightest-gray);
@@ -33,6 +34,7 @@
 
 .SnapshotViewer-header-full {
   position: fixed;
+  top: 0;
   width: 100vw;
   z-index: 1;
   grid-template-columns: 1fr auto 1fr;

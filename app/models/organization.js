@@ -1,5 +1,5 @@
 import {computed} from '@ember/object';
-import {filterBy, alias} from '@ember/object/computed';
+import {filterBy, alias, bool} from '@ember/object/computed';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -8,9 +8,18 @@ export default DS.Model.extend({
   versionControlIntegrations: DS.hasMany('version-control-integrations', {
     async: false,
   }),
+
   githubIntegration: computed('versionControlIntegrations.@each.githubIntegrationId', function() {
     return this.get('versionControlIntegrations').findBy('isGithubIntegration');
   }),
+
+  githubEnterpriseIntegration: computed(
+    'versionControlIntegrations.@each.githubEnterpriseIntegrationId',
+    function() {
+      return this.get('versionControlIntegrations').findBy('githubEnterpriseIntegrationId');
+    },
+  ),
+
   githubIntegrationRequest: DS.belongsTo('github-integration-request', {
     async: false,
   }),
@@ -32,6 +41,9 @@ export default DS.Model.extend({
   isGithubIntegrated: computed('githubAuthMechanism', function() {
     return this.get('githubAuthMechanism') !== 'no-access';
   }),
+
+  isGithubEnterpriseIntegrated: bool('githubEnterpriseIntegration'),
+
   githubAuthMechanism: computed('githubIntegration', function() {
     if (this.get('githubIntegration')) {
       return 'github-integration';

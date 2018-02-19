@@ -1,6 +1,6 @@
 import FactoryGuy from 'ember-data-factory-guy';
 import faker from 'faker';
-import {makeList, make} from 'ember-data-factory-guy';
+import {makeList} from 'ember-data-factory-guy';
 
 FactoryGuy.define('organization', {
   default: {
@@ -13,9 +13,17 @@ FactoryGuy.define('organization', {
   traits: {
     withGithubIntegration: {
       versionControlIntegrations: () => {
-        // TODO: This will clobber other versionControlIntegrations
-        // When more integrations are added here, fix this to support them
-        return [make('version-control-integration', 'github')];
+        return makeList('version-control-integration', ['github']);
+      },
+    },
+    withGithubEnterpriseIntegration: {
+      versionControlIntegrations: () => {
+        return makeList('version-control-integration', ['githubEnterprise']);
+      },
+    },
+    withMultipleIntegrations: {
+      versionControlIntegrations: () => {
+        return makeList('version-control-integration', ['github', 'githubEnterprise']);
       },
     },
     withRepos: {repos: () => makeList('repo', 3)},

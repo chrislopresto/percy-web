@@ -18,11 +18,11 @@ export default Route.extend(AuthenticatedRouteMixin, {
     });
   },
   resetController(controller, isExiting) {
+    // Clear cached snapshot order between route transitions.
+    this.get('cachedSnapshotOrder').resetCachedSnapshotOrder();
     if (isExiting) {
       // Clear the query parameter when exiting the route.
       controller.set('activeSnapshotId', undefined);
-      // Clear cached snapshot order between route transitions.
-      this.get('cachedSnapshotOrder').resetCachedSnapshotOrder();
     }
   },
   actions: {
