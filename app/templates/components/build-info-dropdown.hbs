@@ -1,6 +1,7 @@
-<button {{action "toggleModal"}} id="BuildInfo" class="btn btn--small">
-  Build Info
+<button {{action "toggleModal"}} data-test-build-info class="build-info-toggle flex center btn-icon-only">
+  {{inline-svg 'build-info-icon'}}
 </button>
+
 {{#if isShowingModal}}
   {{#modal-dialog onClose="toggleModal"
                   hasOverlay=false
@@ -8,12 +9,10 @@
                   translucentOverlay=true
                   targetAttachment="bottom left"
                   attachment="top left"
-                  tetherTarget="#BuildInfo"
+                  tetherTarget=".build-info-toggle"
                   containerClass="BuildInfoDropdown-modal rounded"
                   renderInPlace=renderInPlace
                   build=build}}
-
-    {{fa-icon "caret-up"}}
 
     {{build-state-badge build=build}}
 

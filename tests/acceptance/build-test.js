@@ -37,7 +37,7 @@ describe('Acceptance: Pending Build', function() {
     });
     percySnapshot(this.test.fullTitle() + ' on the build page');
 
-    click('#BuildInfo');
+    click('[data-test-build-info]');
 
     percySnapshot(this.test.fullTitle() + ' on the build page with build info open');
   });
@@ -72,7 +72,7 @@ describe('Acceptance: Processing Build', function() {
     });
     percySnapshot(this.test.fullTitle() + ' on the build page');
 
-    click('#BuildInfo');
+    click('[data-test-build-info]');
 
     percySnapshot(this.test.fullTitle() + ' on the build page with build info open');
   });
@@ -108,7 +108,7 @@ describe('Acceptance: Failed Build', function() {
     });
     percySnapshot(this.test.fullTitle() + ' on the build page');
 
-    click('#BuildInfo');
+    click('[data-test-build-info]');
 
     percySnapshot(this.test.fullTitle() + ' on the build page with build info open');
 
@@ -166,7 +166,7 @@ describe('Acceptance: Build', function() {
     });
     percySnapshot(this.test.fullTitle() + ' on the build page');
 
-    click('#BuildInfo');
+    click('[data-test-build-info]');
 
     percySnapshot(this.test.fullTitle() + ' on the build page with build info open');
   });
