@@ -1,9 +1,20 @@
 .build-card,
 .build-list-header {
   display: grid;
+  position: relative;
   grid-gap: var(--spacing-4);
   padding: 0 var(--spacing-3);
-  box-shadow: inset 4px 0 0 var(--status-color, transparent);
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -4px;
+    width: 8px;
+    height: 100%;
+    background: var(--status-color, transparent);
+    transition: transform 250ms;
+  }
 
   @media screen and (min-width: $width-md) {
     grid-template-columns: 108px 4fr 180px 108px;
@@ -28,7 +39,7 @@
   align-items: center;
   padding: var(--spacing-3) var(--spacing-4);
   background: var(--white);
-  transition: box-shadow 250ms;
+  overflow: hidden;
   grid-template-areas:
     "build"
     "details"
@@ -40,7 +51,11 @@
   }
 
   &:hover {
-    box-shadow: inset 8px 0 0 var(--status-color, transparent), inset 0 1px 0 var(--gray-100), inset 0 -1px 0 var(--gray-100);
+    box-shadow: inset 0 1px 0 var(--gray-100), inset 0 -1px 0 var(--gray-100);
+
+    &::after {
+      transform: translate3d(4px, 0, 0);
+    }
 
     .status-pill {
       transform: scale(1.05);
