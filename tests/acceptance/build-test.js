@@ -241,32 +241,6 @@ describe('Acceptance: Build', function() {
     });
   });
 
-  it('jumps to snapshot for query params', function() {
-    BuildPage.visitBuild(Object.assign(urlParams, {snapshot: twoWidthsSnapshot.id}));
-
-    andThen(() => {
-      const focusedSnapshot = BuildPage.focusedSnapshot();
-
-      expect(currentPath()).to.equal('organization.project.builds.build.index');
-      expect(focusedSnapshot.isFocused).to.equal(true);
-      expect(focusedSnapshot.name).to.equal(twoWidthsSnapshot.name);
-    });
-
-    percySnapshot(this.test.fullTitle());
-  });
-
-  it('jumps to snapshot for query params when snapshot has no diffs ', function() {
-    BuildPage.visitBuild(Object.assign(urlParams, {snapshot: noDiffsSnapshot.id}));
-    andThen(() => {
-      const focusedSnapshot = BuildPage.focusedSnapshot();
-
-      expect(focusedSnapshot.name).to.equal(noDiffsSnapshot.name);
-      expect(focusedSnapshot.isExpanded).to.equal(true);
-    });
-
-    percySnapshot(this.test.fullTitle());
-  });
-
   it('shows and hides unchanged diffs', function() {
     const snapshotName = noDiffsSnapshot.name;
 
