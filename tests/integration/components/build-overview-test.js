@@ -48,7 +48,7 @@ describe('Integration: BuildOverviewComponent', function() {
       build,
       showSupport: showSupportStub,
     });
-    this.render(hbs`{{build-overview build=build showSupport=showSupport}}`);
+    this.render(hbs`{{build-header build=build showSupport=showSupport}}`);
 
     this.$('[data-test-build-overview-show-support]').click();
     expect(showSupportStub).to.have.been.called; // eslint-disable-line
