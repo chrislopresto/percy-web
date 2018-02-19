@@ -132,6 +132,8 @@ describe('Acceptance: Build', function() {
       project,
       createdAt: moment().subtract(2, 'minutes'),
       finishedAt: moment().subtract(5, 'seconds'),
+      totalSnapshotsUnreviewed: 8,
+      totalSnapshots: 12,
     });
     this.comparisons = {
       different: server.create('comparison', {headBuild}),
